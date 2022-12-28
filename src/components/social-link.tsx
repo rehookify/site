@@ -11,12 +11,14 @@ export const SocialLink: FC<PropsWithChildren<SocialLinkProps>> = ({
   children,
   className,
   href,
+  ...props
 }) => (
   <a
     href={href}
     className={`social-link ${className}`}
     target="_blank"
     rel="noopener noreferrer"
+    {...props}
   >
     {children}
   </a>

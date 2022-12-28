@@ -1,5 +1,5 @@
 export { ChevronLeftIcon } from './chevron-left';
-export {ChevronRightIcon } from './chevron-right'
+export { ChevronRightIcon } from './chevron-right';
 export { DatePickerLogo } from './date-picker';
 export { DiscordIcon } from './discord';
 export { ExternalLinkIcon } from './external-link';

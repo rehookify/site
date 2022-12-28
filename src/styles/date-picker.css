@@ -47,12 +47,12 @@
 }
 
 .secondary {
-  opacity: 0.5;
+  opacity: 0.65;
 }
 
 .today {
   font-weight: 900;
-  border: 1px solid var(--secondary-dark-color) !important;
+  border: 1px solid var(--primary-dark-color) !important;
 }
 
 .will-be-in-range,
@@ -86,7 +86,7 @@
 }
 
 .in-range {
-  background-color: var(--tertiary-dark-color);
+  background-color: var(--secondary-dark-color);
 }
 
 .selected {

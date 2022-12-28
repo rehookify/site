@@ -17,6 +17,7 @@ export const PROS_ITEMS = [
   {
     icon: '🍱',
     title: 'Modular',
-    description: 'Logic splitting allows you to use as minimum code as possible.',
+    description:
+      'Logic splitting allows you to use as minimum code as possible.',
   },
 ];
