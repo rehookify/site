@@ -27,11 +27,13 @@ export const getDayClassName = ({
     .filter(Boolean)
     .join(' ');
 
+const NOW = new Date();
+
 export const DatePicker = () => {
   const [s, d] = useDatePickerState({
     dates: {
       mode: 'range',
-      selectedDates: [new Date()],
+      selectedDates: [NOW],
     },
   });
   const { calendars, weekDays } = useCalendars(s);
