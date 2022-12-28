@@ -11,8 +11,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
 
 import '../styles/date-picker.css';
 
-const NOW = new Date();
-
 export const getDayClassName = ({
   isToday,
   selected,
@@ -33,10 +31,7 @@ export const DatePicker = () => {
   const [s, d] = useDatePickerState({
     dates: {
       mode: 'range',
-      selectedDates: [
-        new Date(NOW.setDate(NOW.getDate() - 3)),
-        new Date(NOW.setDate(NOW.getDate() + 6)),
-      ],
+      selectedDates: [new Date()],
     },
   });
   const { calendars, weekDays } = useCalendars(s);
