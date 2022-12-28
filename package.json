@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@mdx-js/react": "^2.1.5",
+    "@rehookify/datepicker": "^2.1.0",
     "gatsby": "^5.2.0",
     "gatsby-omni-font-loader": "^2.0.2",
     "gatsby-plugin-google-analytics": "^5.2.0",

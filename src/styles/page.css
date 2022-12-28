@@ -1,0 +1,49 @@
+.page-title {
+  font-weight: 900;
+}
+
+.page-title--huge {
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.page-description {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+
+  font-size: 1.25rem;
+  text-align: center;
+  color: var(--secondary-dark-color);
+}
+
+.page-section {
+  margin-bottom: 6rem;
+}
+
+.page-section__title {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  text-align: center;
+  line-height: 1;
+}
+
+@media screen and (min-width: 414px) {
+  .page-title--huge {
+    font-size: 4rem;
+  }
+
+  .page-section__title {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .page-title--huge {
+    font-size: 5rem;
+  }
+
+  .page-section__title {
+    font-size: 3rem;
+  }
+}
