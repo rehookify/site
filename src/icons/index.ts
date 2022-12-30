@@ -1,3 +1,4 @@
+export { NotFoundIcon } from './404';
 export { ChevronLeftIcon } from './chevron-left';
 export { ChevronRightIcon } from './chevron-right';
 export { DatePickerLogo } from './date-picker';
