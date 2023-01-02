@@ -12,7 +12,7 @@ export const Footer = () => {
     const currentYear = new Date().getFullYear();
     setCopy(
       `[Re]Hookify © ${START_YEAR}${
-        START_YEAR === currentYear ? '' : ' - ${currentYear}'
+        START_YEAR === currentYear ? '' : ` - ${currentYear}`
       }`,
     );
   }, []);
