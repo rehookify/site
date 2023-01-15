@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useDatePickerState,
   useCalendars,
@@ -28,14 +28,23 @@ export const getDayClassName = ({
     .join(' ');
 
 export const DatePicker = () => {
+  const [calendarsData, setCalendarsData] = useState<ReturnType<
+    typeof useCalendars
+  > | null>(null);
   const [s, d] = useDatePickerState({
     dates: {
       mode: 'range',
     },
   });
-  const { calendars, weekDays } = useCalendars(s);
+
   const { dayButton } = useDaysPropGetters(s, d);
   const { nextMonthButton, previousMonthButton } = useMonthsPropGetters(s, d);
+  useEffect(() => {
+    setCalendarsData(useCalendars(s));
+  }, [s]);
+
+  if (!calendarsData) return null;
+  const { calendars, weekDays } = calendarsData;
 
   const { month, year, days } = calendars[0];
 
