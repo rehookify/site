@@ -31,14 +31,17 @@ export const DatePicker = () => {
   const [calendarsData, setCalendarsData] = useState<ReturnType<
     typeof useCalendars
   > | null>(null);
-  const [s, d] = useDatePickerState({
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+  const s = useDatePickerState({
+    selectedDates,
+    onDatesChange,
     dates: {
       mode: 'range',
     },
   });
 
-  const { dayButton } = useDaysPropGetters(s, d);
-  const { nextMonthButton, previousMonthButton } = useMonthsPropGetters(s, d);
+  const { dayButton } = useDaysPropGetters(s);
+  const { nextMonthButton, previousMonthButton } = useMonthsPropGetters(s);
   useEffect(() => {
     setCalendarsData(useCalendars(s));
   }, [s]);

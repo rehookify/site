@@ -33,7 +33,7 @@ const IndexPage: React.FC<PageProps> = () => {
             <TwitterIcon />
           </SocialLink>
           <SocialLink
-            href="https://discord.gg/nHYYwKGT"
+            href="https://discord.gg/EsjhwxH79d"
             className="social-link--discord"
             aria-label="discord link"
           >
