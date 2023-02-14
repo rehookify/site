@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   useDatePickerState,
   useCalendars,
@@ -12,7 +12,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
 import '../styles/date-picker.css';
 
 export const getDayClassName = ({
-  isToday,
+  now,
   selected,
   inCurrentMonth,
   range,
@@ -21,16 +21,13 @@ export const getDayClassName = ({
     'day',
     range,
     selected ? 'selected' : null,
-    isToday ? 'today' : null,
+    now ? 'today' : null,
     !inCurrentMonth ? 'secondary' : null,
   ]
     .filter(Boolean)
     .join(' ');
 
 export const DatePicker = () => {
-  const [calendarsData, setCalendarsData] = useState<ReturnType<
-    typeof useCalendars
-  > | null>(null);
   const [selectedDates, onDatesChange] = useState<Date[]>([]);
   const s = useDatePickerState({
     selectedDates,
@@ -42,12 +39,7 @@ export const DatePicker = () => {
 
   const { dayButton } = useDaysPropGetters(s);
   const { nextMonthButton, previousMonthButton } = useMonthsPropGetters(s);
-  useEffect(() => {
-    setCalendarsData(useCalendars(s));
-  }, [s]);
-
-  if (!calendarsData) return null;
-  const { calendars, weekDays } = calendarsData;
+  const { calendars, weekDays } = useCalendars(s);
 
   const { month, year, days } = calendars[0];
 
@@ -73,13 +65,13 @@ export const DatePicker = () => {
         ))}
       </div>
       <div className="date-picker__calendar">
-        {days.map((dpDay) => (
+        {days.map((d) => (
           <DatePickerButton
-            key={dpDay.date}
-            className={getDayClassName(dpDay)}
-            {...dayButton(dpDay)}
+            key={d.$date.toString()}
+            className={getDayClassName(d)}
+            {...dayButton(d)}
           >
-            {dpDay.day}
+            {d.day}
           </DatePickerButton>
         ))}
       </div>

@@ -84,6 +84,7 @@ const IndexPage: React.FC<PageProps> = () => {
                   Single or Multiple date picker
                 </li>
                 <li className="dp-features__item">Range picker</li>
+                <li className="dp-features__item">Time picker</li>
                 <li className="dp-features__item">Multiple calendars</li>
                 <li className="dp-features__item">Localization</li>
                 <li className="dp-features__item">Prop-getters</li>
