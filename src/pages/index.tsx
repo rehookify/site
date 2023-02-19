@@ -14,7 +14,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <main className={cn}>CONTENT WILL GO HERE</main>
+      <main className={cn}>SITE WILL GO HERE</main>
     </>
   );
 }
