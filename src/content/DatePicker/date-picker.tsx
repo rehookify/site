@@ -1,12 +1,11 @@
 import {
   useContextCalendars,
-  useContextDays,
   useContextMonthsPropGetters,
 } from '@rehookify/datepicker';
 import { Calendar, DatePickerButton } from '@/components/DatePicker';
 import { ChevronLeftIcon, ChevronRightIcon } from '@/icons';
 
-export const DatePicker = () => {
+const DatePicker = () => {
   const { calendars } = useContextCalendars();
   const { previousMonthButton, nextMonthButton } =
     useContextMonthsPropGetters();
@@ -27,3 +26,5 @@ export const DatePicker = () => {
     />
   );
 };
+
+export default DatePicker;

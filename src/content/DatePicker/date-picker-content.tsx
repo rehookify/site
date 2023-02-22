@@ -1,12 +1,14 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { DatePickerStateProvider } from '@rehookify/datepicker';
 import { ButtonIcon, PrimaryButton } from '@/components';
 import { DP_FEATURES } from '@/constants';
 import { DatePickerLogo, ExternalLinkIcon } from '@/icons';
-import { DatePicker } from './date-picker';
+
+const LazyDP = lazy(() => import('./date-picker'));
 
 import styles from './dp-content.module.css';
+import { DatePickerFallback } from './date-picker-fallback';
 
 export const DatePickerContent = () => {
   const [selectedDates, onDatesChange] = useState<Date[]>([]);
@@ -55,11 +57,17 @@ export const DatePickerContent = () => {
           </a>
         </div>
         <div className={styles.calendars}>
-          <DatePickerStateProvider
-            config={{ selectedDates, onDatesChange, dates: { mode: 'range' } }}
-          >
-            <DatePicker />
-          </DatePickerStateProvider>
+          <Suspense fallback={<DatePickerFallback />}>
+            <DatePickerStateProvider
+              config={{
+                selectedDates,
+                onDatesChange,
+                dates: { mode: 'range' },
+              }}
+            >
+              <LazyDP />
+            </DatePickerStateProvider>
+          </Suspense>
         </div>
       </div>
     </>
