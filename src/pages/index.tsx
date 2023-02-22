@@ -1,123 +1,77 @@
-import * as React from 'react';
-import type { HeadFC, PageProps } from 'gatsby';
-
+import Head from 'next/head';
+import { Inter } from '@next/font/google';
+import { DiscordIcon, GithubIcon, Logo, TwitterIcon } from '@/icons';
 import {
-  Logo,
-  TwitterIcon,
-  DiscordIcon,
-  GithubIcon,
-  DatePickerLogo,
-  ExternalLinkIcon,
-} from '../icons';
-import { Content, SocialLink, ProsItem, Footer } from '../components';
-import { PROS_ITEMS } from '../constants/pros';
+  SocialLink,
+  ContentContainer,
+  ContentSection,
+  Footer,
+} from '@/components';
+import { DatePickerContent, ProsList } from '@/content';
 
-import '../styles/dp.css';
-import '../styles/main.css';
-import '../styles/page.css';
-import '../styles/pros.css';
-import { DatePicker } from '../date-picker/date-picker';
-import { PrimaryButton } from '../components/primary-button';
+const inter = Inter({ subsets: ['latin'] });
 
-const IndexPage: React.FC<PageProps> = () => {
+export default function Home() {
   return (
-    <main className="main">
-      <header className="main-header">
-        <Logo />
-        <nav className="main-navigation">
-          <SocialLink
-            href="https://twitter.com/rehookify"
-            className="social-link--twitter"
-            aria-label="twitter link"
-          >
-            <TwitterIcon />
-          </SocialLink>
-          <SocialLink
-            href="https://discord.gg/EsjhwxH79d"
-            className="social-link--discord"
-            aria-label="discord link"
-          >
-            <DiscordIcon />
-          </SocialLink>
-          <SocialLink
-            href="https://github.com/rehookify"
-            className="social-link--github"
-            aria-label="github link"
-          >
-            <GithubIcon />
-          </SocialLink>
-        </nav>
-      </header>
-      <Content>
-        <section className="page-section">
-          <h1 className="page-section__title page-title">
-            <span className="page-title--huge">Tiny utils</span>
-            <br />
-            to build performant React apps
-          </h1>
-          <p className="page-description">
-            [Re]Hookify offers a small, zero dependant, highly efficient,
-            accessible ready set of headless UI tools. It will help you to build
-            the design system with your React tech stack.
-          </p>
-        </section>
-        <section className="page-section">
-          <ul className="clean-list pros">
-            {PROS_ITEMS.map((item) => (
-              <ProsItem key={item.title} {...item} />
-            ))}
-          </ul>
-        </section>
-        <section className="page-section">
-          <div className="dp__title">
-            <DatePickerLogo />
-          </div>
-          <div className="dp">
-            <p className="dp__text dp-title-area">
-              Set of React hooks that will help you to build a date or range
-              picker in your apps.
+    <>
+      <Head>
+        <title>Hookify</title>
+        <meta
+          name="description"
+          content="Tiny utils to build performant React apps"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.svg" />
+      </Head>
+      <main className={inter.className}>
+        <header className="w-full relative mb-24">
+          <Logo />
+          <nav className="flex justify-end items-center absolute top-0 right-0 h-full w-8/12 sm:h-[29%]">
+            <SocialLink
+              href="https://twitter.com/rehookify"
+              className="p-1.5"
+              aria-label="twitter link"
+            >
+              <TwitterIcon />
+            </SocialLink>
+            <SocialLink
+              href="https://discord.gg/EsjhwxH79d"
+              className="p-1"
+              aria-label="discord link"
+            >
+              <DiscordIcon />
+            </SocialLink>
+            <SocialLink
+              href="https://github.com/rehookify"
+              className="p-2"
+              aria-label="github link"
+            >
+              <GithubIcon />
+            </SocialLink>
+          </nav>
+        </header>
+        <ContentContainer>
+          <ContentSection>
+            <h1 className="font-black text-2 mb-6 text-2 text-center md:text-3 leading-none">
+              <span className="text-3 uppercase md:text-5">Tiny utils</span>
+              <br />
+              to build performant React apps
+            </h1>
+            <p className="w-full max-w-2xl mx-auto text-xl text-center text-zinc-500 leading-8">
+              [Re]Hookify offers a small, zero-dependency, highly efficient set
+              of headless UI tools that are ready to use. It can help you build
+              a design system using your React tech stack.
             </p>
-            <div className="dp__info dp-features-area">
-              <p className="dp__text">Main features:</p>
-              <ul className="dp-features">
-                <li className="dp-features__item">
-                  Single or Multiple date picker
-                </li>
-                <li className="dp-features__item">Range picker</li>
-                <li className="dp-features__item">Time picker</li>
-                <li className="dp-features__item">Multiple calendars</li>
-                <li className="dp-features__item">Localization</li>
-                <li className="dp-features__item">Prop-getters</li>
-              </ul>
-              <a
-                href="https://github.com/rehookify/datepicker"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <PrimaryButton>
-                  Documentation <ExternalLinkIcon />
-                </PrimaryButton>
-              </a>
-            </div>
-            <div className="dp-calendar-area">
-              <DatePicker />
-            </div>
-          </div>
-        </section>
-      </Content>
-      <Footer />
-    </main>
+          </ContentSection>
+          <ContentSection>
+            <ProsList />
+          </ContentSection>
+          <ContentSection>
+            <DatePickerContent />
+          </ContentSection>
+        </ContentContainer>
+        <Footer />
+      </main>
+    </>
   );
-};
-
-export default IndexPage;
-
-export const Head: HeadFC = () => (
-  <>
-    <title>Rehookify</title>
-    <meta
-      name="description"
-      content="Tiny utils to build performant React apps"
-    />
-  </>
-);
+}

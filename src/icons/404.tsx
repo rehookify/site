@@ -1,11 +1,12 @@
-import React from 'react';
+import { FC, SVGAttributes } from 'react';
+import { SVG } from '@/components';
 
-export const NotFoundIcon = () => (
-  <svg
+export const NotFoundIcon: FC<SVGAttributes<HTMLOrSVGElement>> = (props) => (
+  <SVG
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 478 332"
-    className="svg"
+    {...props}
   >
     <path
       fill="currentColor"
@@ -16,5 +17,5 @@ export const NotFoundIcon = () => (
       strokeWidth="28"
       d="M348 318h116V14H348M130 14H14v304h116"
     />
-  </svg>
+  </SVG>
 );
