@@ -6,7 +6,7 @@ export const SVG: FC<SVGAttributes<HTMLOrSVGElement>> = ({
   className,
   ...props
 }) => (
-  <svg className={clsx('block', className)} {...props}>
+  <svg className={clsx('block w-full', className)} {...props}>
     {children}
   </svg>
 );
