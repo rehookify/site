@@ -1,17 +1,22 @@
 import clsx from 'clsx';
-import { lazy, Suspense, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DatePickerStateProvider } from '@rehookify/datepicker';
 import { ButtonIcon, PrimaryButton } from '@/components';
 import { DP_FEATURES } from '@/constants';
 import { DatePickerLogo, ExternalLinkIcon } from '@/icons';
 
-const LazyDP = lazy(() => import('./date-picker'));
-
 import styles from './dp-content.module.css';
 import { DatePickerFallback } from './date-picker-fallback';
+import DatePicker from './date-picker';
 
 export const DatePickerContent = () => {
   const [selectedDates, onDatesChange] = useState<Date[]>([]);
+  const [render, setRender] = useState<'pending' | 'loaded'>('pending');
+
+  useEffect(() => {
+    setTimeout(() => setRender('loaded'), 250);
+  }, []);
+
   return (
     <>
       <div className="flex justify-center mb-12 max-h-48">
@@ -24,8 +29,8 @@ export const DatePickerContent = () => {
             'text-2xl md:text-2.5 leading-normal font-bold sm:max-[900px]:text-center',
           )}
         >
-          Set of React hooks that will help you to build a date or range picker
-          in your apps.
+          Set of React hooks that will help you to build a date, range and time
+          picker in your apps.
         </h2>
         <div
           className={clsx(
@@ -57,7 +62,9 @@ export const DatePickerContent = () => {
           </a>
         </div>
         <div className={styles.calendars}>
-          <Suspense fallback={<DatePickerFallback />}>
+          {render === 'pending' ? (
+            <DatePickerFallback />
+          ) : (
             <DatePickerStateProvider
               config={{
                 selectedDates,
@@ -65,9 +72,9 @@ export const DatePickerContent = () => {
                 dates: { mode: 'range' },
               }}
             >
-              <LazyDP />
+              <DatePicker />
             </DatePickerStateProvider>
-          </Suspense>
+          )}
         </div>
       </div>
     </>
