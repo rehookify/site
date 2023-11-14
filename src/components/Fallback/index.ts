@@ -1,1 +1,0 @@
-export { FallbackBlock } from './block';
