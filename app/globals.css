@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+
+    --dp-border-color: 39 39 42; /* zinc-800 */
+    --dp-in-range-bg: 113 113 122; /* zinc-500 */
+    --dp-in-range-text-color: 244 244 245; /* zinc-100 */
+    --dp-in-range-hover-text-color: 39 39 42; /* zinc-800 */
+    --dp-border-radius: 4px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --dp-border-color: 244 244 245; /* zinc-100 */
+      --dp-in-range-bg: 161 161 170; /* zinc-400 */
+      --dp-in-range-text-color: 39 39 42; /* zinc-800 */
+      --dp-in-range-hover-text-color: 39 39 42; /* zinc-800 */
+    }
+  }
+}

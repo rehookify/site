@@ -1,4 +1,4 @@
-import { SVG } from '@/components';
+import { SVG } from '~/components/svg';
 
 export const Logo = () => (
   <SVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1025 332">
