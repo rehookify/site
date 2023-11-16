@@ -21,8 +21,49 @@ const config: Config = {
       maxWidth: {
         content: '1158px',
       },
+      typography: ({ theme }: any) => ({
+        DEFAULT: {
+          css: {
+            pre: {
+              padding: '1rem 1.5rem',
+              lineHeight: '2',
+
+              border: '1px solid',
+
+              '&[data-theme="light"]': {
+                backgroundColor: theme('colors.white'),
+                borderColor: theme('colors.zinc[300]'),
+              },
+
+              '&[data-theme="dark"]': {
+                backgroundColor: theme('colors.zinc[800]'),
+                borderColor: theme('colors.zinc[700]'),
+              },
+
+              '> code': {
+                display: 'grid',
+                fontSize: 'inherit',
+                boxShadow: 'none',
+              },
+              '[data-line]': {
+                margin: '0 -1.5rem',
+                padding: '0 1.5rem',
+              },
+              'code[data-theme="light"] [data-highlighted-line]': {
+                borderLeft: `1px solid ${theme('colors.zinc[900]')}`,
+                backgroundColor: theme('colors.zinc[100]'),
+              },
+              'code[data-theme="dark"] [data-highlighted-line]': {
+                borderLeft: `1px solid ${theme('colors.zinc[100]')}`,
+                backgroundColor: theme('colors.zinc[600]/0.5'),
+              },
+            },
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
+
 export default config;

@@ -1,0 +1,286 @@
+# All in one solution
+
+You can employ the `useDatePicker` hook to acquire all essential [data](/datepicker/state-data) and [prop-getters](/datepicker/state-prop-getters). This method is frequently used when consolidating various features into a single entity.
+
+In this tutorial, our objective is to craft a datepicker equipped with one calendar and the capability to toggle selected dates and posibility to control offset remotely. Please note that we won't delve extensively into styling and component composition, you can discover a comprehensive code solution on the [examples](/datepicker/examples) page.
+
+## Picking the right tool
+
+To access all datepicker functionalities, you have two options:
+
+1. using the `useDatePicker` hook
+
+```tsx
+const [selectedDates, onDatesChange] = useState<Date[]>([]);
+const { date, propGetters } = useDatePicker({
+  selectedDates,
+  onDatesChange
+});
+```
+
+2. using `DatePickerProvider` alongside `useDatePickerContext`
+
+```tsx
+const [selectedDates, onDatesChange] = useState<Date[]>([]);
+
+return (
+  <DatePickerProvider
+    config={{
+      selectedDates,
+      onDatesChange,
+    }}
+  >
+    {children}
+  </DatePickerProvider>
+);
+```
+
+and subsequently within the provider components:
+
+```tsx
+const { data, propsGetters } = useDatePickerContext();
+```
+
+For this example we will pick `useDatePicker` hook approach.
+
+## Bootstrapting DatePicker component
+
+Firstly, we need to gather all the necessary pieces.
+
+We don't need much to get started, just a few things:
+
+- `useDatePicker` hook to access all the data and prop-getters
+- `useState` to control `selectedDates` and `offsetDate`
+
+```tsx
+import React, { useState } from 'react';
+import { useDatePicker } from '@rehookify/datepicker';
+
+export const DatePicker = () => {
+  /* logic goes here */
+
+  return (
+    <section>
+      {/* component goes here */}
+    </section>
+  );
+}
+```
+
+Now let's create needed state and invoke and datepicker
+
+```tsx {5-6,8}
+import React, { useState } from 'react';
+import { useDatePicker } from '@rehookify/datepicker';
+
+export const DatePicker = () => {
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+  const [offsetDate, onOffsetChange] = useState<Date>(new Date());
+
+  const { data, propGetters } = useDatePicker({})
+
+  return (
+    <section>
+      {/* component goes here */}
+    </section>
+  );
+}
+```
+
+## Configuring DatePicker and getting data
+
+To render a basic calendar, we require data for days, curent month and year, and weekdays.
+
+Additionally, we aim to change the offset and select dates.
+
+Let's get needed data from the [datepicker state](/datepicker/state) and provide [configuration](/date-picker/configuration).
+
+
+```tsx {9-14,16-20}
+import React, { useState } from 'react';
+import { useDatePicker } from '@rehookify/datepicker';
+
+export const DatePicker = () => {
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+  const [offsetDate, onOffsetChange] = useState<Date>(new Date());
+
+  const {
+    data: { weekDays, calendars },
+    propGetters: {
+      dayButton,
+      addOffset,
+      subtractOffset,
+    },
+  } = useDatePicker({
+    selectedDates,
+    onDatesChange,
+    offsetDate,
+    onOffsetChange,
+    dates: { toggle: true }
+  });
+
+  // calendars[0] is always present, this is an initial calendar
+  const { year, month, days } = calendars[0];
+
+  return (
+    <section>
+      {/* component goes here */}
+    </section>
+  );
+}
+```
+
+The **calendars** array could contain multiple items, with the first item as the default calendar set to an offset of 0, representing the current month.
+
+## Using recieved data and prop-getters
+
+On this step we need to create a markup for the future component.
+
+```tsx {27-58}
+import React, { useState } from 'react';
+import { useDatePicker } from '@rehookify/datepicker';
+
+export const DatePicker = () => {
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+  const [offsetDate, onOffsetChange] = useState<Date>(new Date());
+
+  const {
+    data: { weekDays, calendars },
+    propGetters: {
+      dayButton,
+      addOffset,
+      subtractOffset,
+    },
+  } = useDatePicker({
+    selectedDates,
+    onDatesChange,
+    offsetDate,
+    onOffsetChange,
+    dates: { toggle: true }
+  });
+
+  const { year, month, days } = calendars[0];
+
+  return (
+    <section>
+      {selectedDates.length > 0 ? <h1>{selectedDates[0]}</h1> : null}
+      <header>
+        <div>
+          <button
+            {...subtractOffset({ months: 1 })}
+            aria-label="Previous month"
+          >
+            &lt;
+          </button>
+          <p>{month} {year}</p>
+          <button
+            {...addOffset({ months: 1 })}
+            aria-label="Next month"
+          >
+            &gt;
+          </button>
+        </div>
+        <ul>
+          {weekDays.map((day) => (
+            <li key={`${month}-${day}`}>{day}</li>
+          ))}
+        </ul>
+      </header>
+      <ul>
+        {days.map((dpDay) => (
+          <li key={dpDay.$date.toDateString()}>
+            <button {...dayButton(dpDay)}>
+              {dpDay.day}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+```
+
+Since we have a **single** mode by default, `selectedDates` will contain only one element representing the currently selected date. If the user clicks on the same date again, it will empty the selectedDates because we've set **toggle: true** in the dates configuration.
+
+## Manipulationg offset outside of datepicker
+
+As we've configured the datepicker to be a fully [controlled element](/datepicker/tutorials#controlled-component), we can manipulate the offset outside of it.
+
+Let's incorporate several buttons that will modify the datepicker's offset position.
+
+```tsx {25-30, 34-37}
+import React, { useState } from 'react';
+import { useDatePicker } from '@rehookify/datepicker';
+
+export const DatePicker = () => {
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+  const [offsetDate, onOffsetChange] = useState<Date>(new Date());
+
+  const {
+    data: { weekDays, calendars },
+    propGetters: {
+      dayButton,
+      addOffset,
+      subtractOffset,
+    },
+  } = useDatePicker({
+    selectedDates,
+    onDatesChange,
+    offsetDate,
+    onOffsetChange,
+    dates: { toggle: true }
+  });
+
+  const { year, month, days } = calendars[0];
+
+  const onMoveToNow = () => onOffsetChange(new Date());
+
+  const onMoveToNewYear = () => {
+    const currentYear = new Date().getFullYear();
+    onOffsetChange(new Date(currentYear + 1, 0, 1));
+  };
+
+  return (
+    <section>
+      <div>
+        <button onClick={onMoveToNow}>Show today</button>
+        <button onClick={onMoveToNewYear}>Show the next New Year</button>
+      </div>
+      {selectedDates.length > 0 ? <h1>{selectedDates[0]}</h1> : null}
+      <header>
+        <div>
+          <button
+            {...subtractOffset({ months: 1 })}
+            aria-label="Previous month"
+          >
+            &lt;
+          </button>
+          <p>{month} {year}</p>
+          <button
+            {...addOffset({ months: 1 })}
+            aria-label="Next month"
+          >
+            &gt;
+          </button>
+        </div>
+        <ul>
+          {weekDays.map((day) => (
+            <li key={`${month}-${day}`}>{day}</li>
+          ))}
+        </ul>
+      </header>
+      <ul>
+        {days.map((dpDay) => (
+          <li key={dpDay.$date.toDateString()}>
+            <button {...dayButton(dpDay)}>
+              {dpDay.day}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+```
+
+That's it folks 🎉

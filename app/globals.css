@@ -19,5 +19,18 @@
       --dp-in-range-text-color: 39 39 42; /* zinc-800 */
       --dp-in-range-hover-text-color: 39 39 42; /* zinc-800 */
     }
+
+    pre[data-theme='light'],
+    code[data-theme='light'] {
+      display: none;
+    }
+  }
+
+  @media (prefers-color-scheme: light),
+  (prefers-color-scheme: no-preference) {
+    pre[data-theme='dark'],
+    code[data-theme='dark'] {
+      display: none;
+    }
   }
 }

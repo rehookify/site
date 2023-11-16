@@ -1,0 +1,78 @@
+# Tutorials
+
+You can use the datepicker in two ways:
+
+1. **[All in one solution](/datepicker/all-in-one)** - You can utilize the `useDatePicker` hook or `DatePickerProvider` component to obtain all necessary [data](/datepicker/state-data) and [prop-getters](/datepicker/state-prop-getters). This is most commonly used when you have everything in one place and need most of the features.
+2. **[Modular hooks](/datepicker/using-modular-hooks)** - By employing the `useDatePickerState` hook or `DatePickerStateProvider`, you can get a general context to pass to the [modular hooks](/datepicker/modular-hooks) divided by features. For instance, `useMonths` and `useMonthsPropGetters` provide general data to create and interact with months."
+
+## General concept
+
+To add required functionality to the datepicker, you can pass a [configuration object](/datepicker/configuration) to the `useDatePicker` and `useDatePickerState` hooks, or to the `DatePickerStateProvider` component.
+
+```tsx
+// using useDatePicker
+const { data, propsGetters } = useDatePicker({
+  // configuration
+})
+
+// using DatePickerPropvider
+<DatePickerStateProvider config={{
+  // configuration
+}}>
+  {childrden}
+</DatePickerStateProvider>
+// children of the DatePickerProvider will have access full functionality
+// through useDatePickerContext hook
+
+// using useDatePickerState
+const dpState = useDatePickerState({
+  // configuration
+});
+// then you should pass dpState to the modular hooks
+
+// using DatePickerStateProvider
+<DatePickerStateProvider config={{
+  // configuration
+}}>
+  {childrden}
+</DatePickerStateProvider>
+// children of the DatePickerStateProvider will have access to the dpState
+// you can use modular hooks with Context prefix useContextCalendars
+```
+
+## Controlled component
+
+The datepicker operates as a controlled element, which means that you need to provide the `selectedDates` and `onDatesChange` props to it.
+
+The most common approach to supply these props is by using `useState`.
+
+```tsx
+const [selectedDates, onDatesChange] = useState<Date[]>([]);
+
+const { data, propGetters } = useDatePicker({ selectedDates, onDatesChange })
+```
+
+Additionally, you can control the offset (the current datepicker position) by providing `offsetDate` and `onOffsetChange` within the [configuration object](/datepicker/configuration).
+
+```tsx
+const [selectedDates, onDatesChange] = useState<Date[]>([]);
+const [offsetDate, onOffsetChange] = useState<Date>(new Date());
+
+const { data, propGetters } = useDatePicker({
+  selectedDates,
+  onDatesChange,
+  offsetDate,
+  onOffsetChange
+})
+```
+
+Then using `onOffsetChange` enables you to manually move the datepicker to a custom date, bypassing the internal functionality.
+
+```tsx
+const onClick = () => {
+  const currentYear = new Date().getFullYear();
+  onOffsetChange(new Date(currentYear + 1, 0, 1));
+};
+
+<button onClick={onClick}>New Year Eve</button>
+```
