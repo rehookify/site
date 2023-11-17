@@ -10,7 +10,7 @@ import { cn } from '~/lib/cn';
 import { Navigation } from '../types/navigation';
 
 const navVariants = cva(
-  'relative flex items-center px-4 lg:px-6 transition-colors duration-500 h-12 mb-1',
+  'relative flex items-center px-4 lg:px-6 transition-colors duration-500 h-10 mb-1',
   {
     variants: {
       depth: {

@@ -9,6 +9,8 @@ You can use the datepicker in two ways:
 
 To add required functionality to the datepicker, you can pass a [configuration object](/datepicker/configuration) to the `useDatePicker` and `useDatePickerState` hooks, or to the `DatePickerStateProvider` component.
 
+All-in-one solutions:
+
 ```tsx
 // using useDatePicker
 const { data, propsGetters } = useDatePicker({
@@ -23,7 +25,11 @@ const { data, propsGetters } = useDatePicker({
 </DatePickerStateProvider>
 // children of the DatePickerProvider will have access full functionality
 // through useDatePickerContext hook
+```
 
+Modular hooks solutions:
+
+```tsx
 // using useDatePickerState
 const dpState = useDatePickerState({
   // configuration

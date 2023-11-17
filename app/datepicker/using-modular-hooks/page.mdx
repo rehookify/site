@@ -1,3 +1,289 @@
 # Using modular hooks
 
-Will be here soon ⏰
+The goal of modular hooks is to minimize code usage, reducing your application's size. They enable splitting functionalities across components.
+
+For foundational concepts, refer to our [tutorials](/datepicker/tutorials), while [all-in-one solution](/datepicker/all-in-one) covers datepicker basics.
+
+In this guide, we'll craft a range picker with month and year selectors, distributing our functionality across multiple files.
+
+Our approach involves utilizing [React context](https://react.dev/learn/passing-data-deeply-with-context), ensure you're familiar with its functioning.
+
+## Bootstraping context provider and configuring datepicker
+
+```tsx
+import React, { useState } from 'react';
+import { DatePickerStateProvider } from '@rehookify/datepicker';
+
+export const DatePicker = () => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+
+  return (
+    <DatePickerStateProvider
+      config={{
+        selectedDates,
+        onDatesChange,
+        dates: {
+          mode: 'range',
+          minDate: new Date(currentYear, currentMonth - 1, 1),
+          maxDate: new Date(currentYear, currentMonth + 2, 0),
+        }
+      }}
+    >
+      {/* Components will go here */}
+    </DatePickerStateProvider>
+  );
+}
+```
+
+In this section, we're establishing a context wrapper component and setting up the datepicker to function within a range, limited to a span of three months.
+
+```ts {2-4}
+dates: {
+  mode: 'range',
+  minDate: new Date(currentYear, currentMonth - 1, 1),
+  maxDate: new Date(currentYear, currentMonth + 2, 0),
+}
+```
+
+The children within the `DatePicker` component will have access to the raw **dpState**. However, this state doesn't provide the necessary data or functionality. To access the required functionalities, we'll utilize hooks prefixed with `Context`.
+
+## Creating a callendar
+
+Creating a calendar follows a process akin to the steps outlined in the [all-in-one solution](/datepicker/all-in-one#using-recieved-data-and-prop-getters) guide. The primary distinction lies in how we acquire the required data and prop-getters.
+
+To construct the calendar, we'll utilize `useContextCalendars` for gathering data and `useContextDaysPropGetters` for selecting dates.
+
+```tsx
+import {
+  useContextCalendars,
+  useContextDaysPropGetters,
+} from '@rehookify/datepicker';
+
+const Calendar = () => {
+  const { calendars, weekDays } = useContextCalendars();
+  const { dayButton } = useContextDaysPropGetters();
+
+  const { days, month } = calendars[0];
+
+  return (
+    <section>
+      <header>
+        <ul>
+          {weekDays.map((day) => (
+            <li key={`${month}-${day}`}>{day}</li>
+          ))}
+        </ul>
+      </header>
+      <ul>
+        {days.map((dpDay) => (
+          <li key={dpDay.$date.toDateString()}>
+            <button {...dayButton(dpDay)}>
+              {dpDay.day}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+```
+
+In this phase, we've acquired the necessary data and functionalities. However, we're currently unable to switch between months. To enable this functionality, we'll integrate another hook responsible for managing the offset: `useContextDatePickerOffsetPropGetters`.
+
+```tsx {4,10-13,20-34}
+import {
+  useContextCalendars,
+  useContextDaysPropGetters,
+  useContextDatePickerOffsetPropGetters,
+} from '@rehookify/datepicker';
+
+const Calendar = () => {
+  const { calendars, weekDays } = useContextCalendars();
+  const { dayButton } = useContextDaysPropGetters();
+  const {
+    addOffset,
+    subtractOffset
+  } = useContextDatePickerOffsetPropGetters()
+
+  const { days, month } = calendars[0];
+
+  return (
+    <section>
+      <header>
+        <div>
+          <button
+            {...subtractOffset({ months: 1 })}
+            aria-label="Previous month"
+          >
+            &lt;
+          </button>
+          <p>{month}</p>
+          <button
+            {...addOffset({ months: 1 })}
+            aria-label="Next month"
+          >
+            &gt;
+          </button>
+        </div>
+        <ul>
+          {weekDays.map((day) => (
+            <li key={`${month}-${day}`}>{day}</li>
+          ))}
+        </ul>
+      </header>
+      <ul>
+        {days.map((dpDay) => (
+          <li key={dpDay.$date.toDateString()}>
+            <button {...dayButton(dpDay)}>
+              {dpDay.day}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+```
+
+Our Calendar component is ready 🙌
+
+## Creating a month picker
+
+To get months data and prop-getters we will use `useContextMonths` and `useContextMonthsPropGetters` hooks.
+
+```tsx
+import {
+  useContextMonths,
+  useContextMonthsPropGetters,
+} from '@rehookify/datepicker';
+
+export const Months = () => {
+  const { months } = useContextMonths();
+  const { monthButton } = useContextMonthsPropGetters();
+
+  // this is not required but will give more context
+  const year = months[0].$date.getFullYear();
+
+  return (
+    <section>
+      <header>{year}</header>
+      <ul>
+        {months.map((dpMonth) => (
+          <li key={dpMonth.$date.toDateString()}>
+            <button {...monthButton(dpMonth)}>
+              {dpMonth.month}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+```
+
+The Months component operates on a simpler premise. You have control over the appearance of month names by adjusting the `locale.monthName` within the datepicker's [configuration](/datepicker/configuration). By default, this setting provides complete English month names such as **January**, **February**, and so on.
+
+## Creating a year picker
+
+Based on the preceding sections, it's evident that we'll employ the `useContextYears` and `useContextYearsPropGetters` hooks for this purpose! 😅
+
+The key distinction with the years functionality lies in its utilization of its own offset to navigate through a series of years, set by default to display 12 years per page.
+
+```tsx
+import {
+  useContextYears,
+  useContextYearsPropGetters,
+} from '@rehookify/datepicker';
+
+export const Years = () => {
+  const { years } = useContextYears();
+  const {
+    yearButton,
+    // these prop-getters will switch between years pages
+    nextYearsButton,
+    previousYearsButton,
+  } = useContextYearsPropGetters();
+
+  return (
+    <section>
+      <header>
+        <button
+          {...previousYearsButton()}
+          aria-label="Previous years"
+        >
+          &lt;
+        </button>
+        <p>
+          {`${years[0].year} - ${years[years.length - 1].year}`}
+        </p>
+        <button
+          {...nextYearsButton()}
+          aria-label="Next years"
+        >
+          &gt;
+        </button>
+      </header>
+      <ul>
+        {years.map((dpYear) => (
+          <li key={dpYear.$date.toDateString()}>
+            <button {...yearButton(dpYear)}>
+              {dpYear.year}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+```
+
+Customization of the pagination behavior and the number of years displayed per page can be achieved by adjusting the settings in the [years configuration](/datepicker/configuration).
+
+So far so good! 🤓
+
+## Putting all together
+
+Until now, we've constructed structured components for selecting date ranges, months, and years. Let's proceed to present these components to the user interface.
+
+```tsx {4-6,26-30}
+import React, { useState } from 'react';
+import { DatePickerStateProvider } from '@rehookify/datepicker';
+
+import { Calendar } from './Calendar';
+import { Months } from './Months';
+import { Years } from './Years';
+
+export const DatePicker = () => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const [selectedDates, onDatesChange] = useState<Date[]>([]);
+
+  return (
+    <DatePickerStateProvider
+      config={{
+        selectedDates,
+        onDatesChange,
+        dates: {
+          mode: 'range',
+          minDate: new Date(currentYear, currentMonth - 1, 1),
+          maxDate: new Date(currentYear, currentMonth + 2, 0),
+        }
+      }}
+    >
+      <main>
+        <Calendar />
+        <Months />
+        <Years />
+      </main>
+    </DatePickerStateProvider>
+  );
+}
+```
+
+Let's take a moment to recap our journey. We've crafted a modular range-picker equipped with the flexibility to navigate between months and years using React Context and modular hooks. We trust you found this guide enjoyable and beneficial! 🤗
+
+If you need complete code solutions please refer to the [examples](/datepicker/examples) page.
