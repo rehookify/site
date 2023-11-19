@@ -1,10 +1,15 @@
 # Time configuration
 
+The time configuration governs the behavior of the time picker. For adjusting the time format between 24-hours or 12-hours, you can modify this setting within the [locale configuration](/datepicker/locale-configuration).
+
+Here's its structure and types:
+
 ```ts
 export interface DPTimeLimit {
   h: number;
   m: number;
 }
+
 export interface DPTimeConfig {
   interval: number;
   minTime: DPTimeLimit;
@@ -13,12 +18,20 @@ export interface DPTimeConfig {
 }
 ```
 
-- `interval` - time segments value in minutes for example, interval 30 is 48 segments 2 for each hour
-- `minTime` - all times in prop-getters before the `minTime` will be marked as disabled
-- `maxTime` - all times in prop-getters after the `maxTime` will be marked as disabled
-- `useLocales` - if `true` it will use `getLocaleTimeString` to format time
+## interval
 
-✏️ NOTE:
+The **interval** property defines the time segments in minutes. It determines the number of values available in a 24-hour day based on the specified interval. For instance, if the interval is set to 30, there will be 48 segments, allowing for 2 segments within each hour.
 
-- config will sort `minTime` and `maxTime` if both present.
-- you can still get 12h time format by setting `hour12: true` in [Locale configuration](/datepicker/locale-configuration)
+## minTime and maxTime
+
+
+The `minTime` and `maxTime` properties set limits for the time picker:
+
+- **minTime**: Disables all times in the prop-getters before the specified `minTime`.
+- **maxTime**: Disables all times in the prop-getters after the specified `maxTime`.
+
+## useLocales
+
+The **useLocales** property, when set to true, utilizes `Date.getLocaleTimeString` to format time. However, enabling this flag might result in performance issues. Due to reported performance concerns, it has been disabled by default.
+
+While the library provides its own 12-hour converter implementation, enabling the `useLocales` flag, coupled with [locale configuration](/datepicker/locale-configuration), allows for accommodating various other specific use cases related to time formatting.
