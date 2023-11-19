@@ -1,5 +1,9 @@
 # Exclude configuration
 
+The exclude configuration enables the marking of dates as disabled at the configuration level. Moreover, achieving the same behavior is possible by passing `disabled: true` to the [dayButton](/datepicker/state-prop-getters#daybutton) prop-getter.
+
+The exclude configuration follows this structure:
+
 ```ts
 // The days in JS Date object has numbers from 0 - Sun to 6 - Sat
 type DPDayInteger = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -10,6 +14,10 @@ export interface DPExcludeConfig {
 }
 ```
 
-- `day: DPDayInteger` - an array of days number from 0 to 6. If you will specify 0 and 6 all Sundays and Saturdays will be disabled.
+## day
 
-- `date: Date[]` - an array of Dates that will be disabled
+The **day** property consists of an array of day numbers ranging from 0 to 6. For instance, specifying **[0, 6]** will disable all Sundays and Saturdays.
+
+## date
+
+The **date** property comprises an array of EcmaScript Dates. It utilizes an exact match to determine which dates will be disabled.
