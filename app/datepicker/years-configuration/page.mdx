@@ -1,23 +1,22 @@
 # Years configuration
 
-```ts
-type DPYearsMode = 'decade' | 'fluid';
+The years configuration governs the behavior and appearance of the years picker.
 
+Here's its interface:
+
+```ts
 interface DPYearsConfig {
-  mode: DPYearsMode,
+  mode: 'decade' | 'fluid';
   numberOfYears: number;
   step: number;
-},
+}
 ```
 
-- `numberOfYears: number` - the number of years you want to show to a user.
-- `mode: 'decade' | 'fluid' | 'exact'` - it defines how current year will be centered;
+## mode
 
-✏️ NOTE: difference between `decade` and `fluid` mode
+The **mode** option determines how the current year will be centered inside the years matrix.
 
-Years matrix for `decade` mode.
-
-It will count current decade (for 2022 is 2020-2029) and adds end of the previous and start of the next decade
+For the **decade** value, it calculates the current decade (e.g., for 2022, it represents 2020-2029) and adds the end of the previous decade and the start of the next decade.
 
 ```text
 2019 2020 2021
@@ -26,9 +25,7 @@ It will count current decade (for 2022 is 2020-2029) and adds end of the previou
 2028 2029 2030
 ```
 
-Years matrix for `fluid` mode.
-
-It will place current year in the middle of the list -1 (we want to look at the future more) 😉
+In **fluid** mode, the years place the current year in the middle of the list, but offset by -1.
 
 ```text
 2017 2018 2019
@@ -37,9 +34,7 @@ It will place current year in the middle of the list -1 (we want to look at the 
 2026 2027 2028
 ```
 
-Years matrix for `exact` mode.
-
-It will place current year at the end of the list
+In **exact** mode, the current year is placed at the end of the list.
 
 ```text
 2012 2013 2014
@@ -48,4 +43,10 @@ It will place current year at the end of the list
 2021 2022 2023
 ```
 
-- `step: number` - it defines step for previous/nextYearsButton
+## numberOfYears
+
+The **numberOfYears** property determines the quantity of years displayed in the years matrix, with a default value set at **12**.
+
+## step
+
+The step property specifies the number of years that the [previousYearsButton](/datepicker/state-prop-getters#previousyearbutton) and [nextYearsButton](/datepicker/state-prop-getters#nextyearbutton) prop-getters will change by on a single step.
