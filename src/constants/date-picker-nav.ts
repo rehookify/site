@@ -32,6 +32,36 @@ export const DATE_PICKER_NAV: Navigation = [
     depth: 0,
   },
   {
+    href: '/datepicker/dates-configuration',
+    title: 'Dates',
+    depth: 1,
+  },
+  {
+    href: '/datepicker/calendar-configuration',
+    title: 'Calendar',
+    depth: 1,
+  },
+  {
+    href: '/datepicker/locale-configuration',
+    title: 'Locale',
+    depth: 1,
+  },
+  {
+    href: '/datepicker/exclude-configuration',
+    title: 'Exclude',
+    depth: 1,
+  },
+  {
+    href: '/datepicker/years-configuration',
+    title: 'Years',
+    depth: 1,
+  },
+  {
+    href: '/datepicker/time-configuration',
+    title: 'Time',
+    depth: 1,
+  },
+  {
     href: '/datepicker/state',
     title: 'State',
     depth: 0,

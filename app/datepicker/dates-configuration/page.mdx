@@ -1,0 +1,36 @@
+# Dates configuration
+
+```ts
+interface DPDatesUserConfig {
+  mode?: 'single' | 'multiple' | 'range';
+  minDate?: Date;
+  maxDate?: Date;
+  selectSameDate?: boolean;
+  toggle?: boolean;
+  limit?: number;
+}
+```
+
+- `mode: 'single' | 'multiple' | 'range'` - defines how date picker behaves with days
+
+`single` - a user can pick only 1 date
+
+`multiple` - a user can pick unlimited number of dates until `limit` is set
+
+`range` - a user can pick one dates range. `selectedDates` will have 2 dates
+
+- `minDate: Date` - all dates in prop-getters before the `minDate` will be marked as disabled.
+
+✏️ NOTE: if `minDate > NOW` - initial calendar will show the month with `minDate`
+
+- `maxDate: Date` - all dates in prop-getters after the `maxDate` will be marked as disabled.
+
+✏️ NOTE: if `maxDate < NOW` - initial calendar will show the month with `maxDate`
+
+- `selectSameDate: boolean` - it allows to select same date in the `range` mode.
+
+- `toggle: boolean` - allows a user to unselect dates.
+
+- `limit: number` - number of dates that a user could select.
+
+✏️ NOTE: works only with `mode: 'multiple'`

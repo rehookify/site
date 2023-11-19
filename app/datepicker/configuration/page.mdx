@@ -1,3 +1,94 @@
 # Configuration
 
-Will be here soon ⏰
+To attain the desired behavior and functionality, the datepicker requires configuration. While we've covered the basics in our[tutorials](/datepicker/tutorials), [all-in-one solution](/datepicker/all-ino-one), and [modular hooks solution](/datepicker/using-modular-hooks), there's much more the datepicker can offer through various configurations.
+
+The `useDatePicker`, `DatePickerProvider`, `useDatePickerState`, and `DatePickerStateProvider` functions all accept the same configuration object. This object comprises several parts:
+
+- [dates configuration](/datepicker/dates-configuration)
+- [calendar configuration](/datepicker/calendar-configuration)
+- [locale configuration](/datepicker/locale-configuration)
+- [exclude configuration](/datepicker/locale-configuration)
+- [years configuration](/datepicker/locale-configuration)
+- [time configuration](/datepicker/years-configuration)
+
+In this guide, we'll delve into describing how to provide a general configuration and showcase the default configuration values.
+
+## General configuration
+
+```ts
+  selectedDates: Date[];
+  onDatesChange(d: Date[]): void;
+  focusDate?: Date | undefined;
+  offsetDate?: Date;
+  onOffsetChange?: (d: Date) => void;
+```
+
+The datepicker is a [controlled component](/datepicker/tutorials#controlled-component) and `selectedDates` and `onDatesChange` are required fields for the genaral configuration.
+
+A most common setup is to use the `useState` hook to handle updates.
+
+```tsx
+const [selectedDates, onDatesChange] = useState<Date[]>([]);
+const { data } = useDatePicker({
+  selectedDates,
+  onDatesChange,
+})
+```
+
+The `focusDate` serves as the initial value for the time-picker. If it is **undefined** or absent in the `selectedDates` array, all time buttons will be disabled.
+
+Additionally, you have the option to include an `offsetDate` and an `onOffsetChange` function to manage the offset. This feature proves particularly useful when integrating the date-picker with an input field, managing offset in multiple modes, or synchronizing date selection with offset management.
+
+If neither `offsetDate` nor `onOffsetChange` is provided, the date-picker will handle it internally.
+
+## Default configuration value
+
+If no configuration is provided, the datepicker will default to the values listed below:
+
+```ts
+const config: DPConfig = {
+  focusDate: undefined,
+  offsetDate: new Date(),
+  onOffsetChange: undefined,
+  dates: {
+    limit: undefined,
+    mode: 'single',
+    minDate: undefined,
+    maxDate: undefined,
+    selectedDates: [],
+    selectSameDate: false,
+    toggle: false,
+  },
+  calendar: {
+    mode: 'static',
+    offsets: [0],
+  },
+  exclude: {
+    day: [],
+    date: [],
+  },
+  locale: {
+    locale: 'en-GB',
+    day: '2-digit',
+    year: 'numeric',
+    weekday: 'short',
+    monthName: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: undefined,
+    second: undefined,
+  },
+  time: {
+    interval: 30,
+    minTime: undefined,
+    maxTime: undefined,
+  },
+  years: {
+    mode: 'decade',
+    numberOfYears: 12;
+    step: 10,
+  },
+}
+```
+
+For detailed insights into each configuration aspect, you can access more comprehensive information in the subsequent sections.

@@ -1,0 +1,31 @@
+# Locale configuration
+
+Locale configuration consists of values compatible with `date.toLocaleString()`.
+
+For more information about locale you can reed at [MDN doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString).
+
+```ts
+interface DPLocaleConfig {
+  locale?: Intl.LocalesArgument;
+  options?: Intl.DateTimeFormatOptions;
+  day?: Intl.DateTimeFormatOptions['day'];
+  year?: Intl.DateTimeFormatOptions['year'];
+  monthName?: Intl.DateTimeFormatOptions['month'];
+  weekday?: Intl.DateTimeFormatOptions['weekday'];
+  hour: Intl.DateTimeFormatOptions['hour'];
+  minute: Intl.DateTimeFormatOptions['minute'];
+  second?: Intl.DateTimeFormatOptions['second'];
+  hour12?: Intl.DateTimeFormatOptions['hour12'];
+}
+```
+
+- `locale: UnicodeBCP47LocaleIdentifier | Locale | (UnicodeBCP47LocaleIdentifier | Locale)[] | undefined` - used to format all instances, a string with a BCP 47 language tag.
+- `options: Intl.DateTimeFormatOptions` it is left undefined to allow you to control how `selectedDates` will formatted.
+- `day: "2-digit" | "numeric" | undefined` - defines the date's format in [Calendars](/datepicker/state-data#calendars)
+- `year: "numeric" | "2-digit" | undefined` - defines the year's format in [Years](/datepicker/state-data#years)
+- `monthName: "numeric" | "2-digit" | "long" | "short" | "narrow" | undefined` - defines the moths format in [Months](/datepicker/state-data#months)
+- `weekday: "long" | "short" | "narrow" | undefined` - defines weekday's format in [Weekdays](/datepicker/state-data#weekdays)
+- `hour: "numeric" | "2-digit" | undefined` - defines hours format in [Time](/datepicker/state-data#time)
+- `minute: "numeric" | "2-digit" | undefined` - defines minutes format in [Time](/datepicker/state-data#time)
+- `second: "numeric" | "2-digit" | undefined` - defines seconds format in [Time](/datepicker/state-data#time)
+- `hour12: boolean | undefined` - defines time format in general `13:12` or `01:12 pm`
