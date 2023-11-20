@@ -1,3 +1,157 @@
 # State prop-getters
 
-Will be here soon ⏰
+
+### Prop-Getters
+
+A [prop-getters](https://kentcdodds.com/blog/how-to-give-rendering-control-to-users-with-prop-getters) is a pattern that allows you to get all the necessary pops and logic for your components. It gives you the possibility to pass additional configuration. `@rehookify/datepicker` composes `onClick` and calls it with **event** and **date** - `onClick(event, date)`.
+
+Each prop-getter accepts a configuration object to enhance the properties and functionality of the component.
+
+```ts
+export interface DPPropsGetterConfig extends Record<string, unknown> {
+  onClick?(evt?: MouseEvent<HTMLElement>, date?: Date): void;
+  disabled?: boolean;
+}
+```
+
+Each prop-getter returns an object with properties:
+
+```ts
+export interface DPPropGetter extends Record<string, unknown> {
+  role: 'button';
+  tabIndex: number;
+  disabled?: boolean;
+  'aria-disabled'?: boolean;
+  'aria-selected'?: boolean;
+  onClick?(evt: MouseEvent<HTMLElement>): void;
+}
+```
+
+#### dayButton
+
+`dayButton` produces properties for calendar days and sets the `selectedDates` state when a user clicks on a day.
+
+Params:
+
+- `day: DPDay` - you could get it from the calendars 👆 [#Calendars](#calendars)
+- `props?: DPPropsGetterConfig`
+
+Returns:
+
+```ts
+type DayButton = (day: DPDay, config?: DPPropsGetterConfig) => DPPropGetter;
+```
+
+✏️ NOTE: `onMouseMove` - appears only if dates mode is `range`, it is not composable. 👀 [Dates configuration](#dates-configuration)
+
+#### monthButton
+
+`monthButton` produces properties for calendar months and changes month when a user clicks on a month.
+
+Returns:
+
+```ts
+type MonthButton = (month: DPMonth, config?: DPPropsGetterConfig) => DPPropGetter;
+```
+
+Params:
+
+- `month: DPMonth` - you could get it from the months 👆 [Months](#months)
+- `props?: DPMonthsPropGettersConfig`
+
+#### yearButton
+
+`yearButton` produces properties for calendar years and changes the year when user clicks on a year.
+
+Params:
+
+- `year: DPYear` - you could get it from the years 👆 [Years](#years)
+- `props?: DPPropsGetterConfig`
+
+Returns:
+
+```ts
+type YearButton = (year: DPYear, config?: DPPropsGetterConfig) => DPPropGetter;
+```
+
+#### nextYearsButton
+
+`nextYearsButton` moves years pagination one step forward.
+
+Params:
+
+- `props?: DPPropsGetterConfig`
+
+✏️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
+
+#### previousYearsButton
+
+`previousYearsButton` moves years pagination one step backward.
+
+Params:
+
+- `props?: DPPropsGetterConfig`
+
+✏️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
+
+#### timeButton
+
+`timeButton` produces properties for time button and changes corresponding `selectedDate` and `focusDate`.
+
+Params:
+
+- `time: DPTime` - you could get it from the years 👆 [Time](#time)
+- `props?: DPPropsGetterConfig`
+
+✏️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
+
+#### setOffset
+
+```ts
+type SetOffset = (date: Date, config?: DPPropsGetterConfig) => DPPropGetter;
+```
+
+`setOffset` moves offset to passed date if it is after than minDate and before maxDate.
+
+Params:
+
+- `date: Date` - JS date object
+- `props?: DPPropsGetterConfig`
+
+#### addOffset
+
+```ts
+interface DPOffsetValue {
+  days?: number;
+  months?: number;
+  years?: number;
+}
+
+type AddOffset = (
+    offsetValue: DPOffsetValue,
+    config?: DPPropsGetterConfig,
+  ) => DPPropGetter;
+```
+
+`addOffset` - moves current offsetDate forward on the number of days, months and years.
+
+Params:
+
+- `offsetValue: DPOffsetValue` - JS object with number of days, months and years
+- `props?: DPPropsGetterConfig`
+
+#### subtractOffset
+
+```ts
+type SubtractOffset = (
+    offsetValue: DPOffsetValue,
+    config?: DPPropsGetterConfig,
+  ) => DPPropGetter;
+```
+
+`subtractOffset` - moves current offsetDate backward on the number of days, months and years.
+
+Params:
+
+- `offsetValue: DPOffsetValue` - JS object with number of days, months and years
+- `props?: DPPropsGetterConfig`

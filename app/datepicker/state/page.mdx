@@ -1,3 +1,22 @@
 # State
 
-Will be here soon ⏰
+The datepicker state comprises two primary segments: [data](/datepicker/state-data) and [propGetters](/datepicker/state-prop-getters).
+
+The state's **data** section undergoes changes with user interactions or alterations in the configuration. Conversely, **prop-getters** remain consistent, offering all essential functionalities and properties to the datepicker components.
+
+There are two ways to organize the state:
+
+Combined State: Collects all aspects of the state as demonstrated in the [all-in-one solution](/datepciker/all-in-one):
+
+```tsx
+const { data, propGetters } = useDatepicker({ /* configuration */});
+```
+
+Modular State: Organizes state by functional slices, grouped as a set of hooks, as showcased in the [modular hooks solution](/datepicker/modular-hooks):
+
+```tsx
+const { calendars, weekDays } = useContextCalendars();
+const { dayButton } = useContextDaysPropGetters();
+```
+
+These approaches provide flexibility in managing and utilizing the datepicker's state based on the specific requirements or preferences.

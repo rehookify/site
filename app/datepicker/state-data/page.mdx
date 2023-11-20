@@ -1,3 +1,118 @@
 # State data
 
-Will be here soon ⏰
+The **data** structure encompasses all entities available for utilization within the datepicker:
+
+This structure includes:
+
+```ts
+interface DPData {
+  calendars: Calendar[];
+  formattedDates: Date[];
+  months: CalendarMonth[];
+  selectedDates: Date[];
+  time: Time[];
+  weekDays: string[];
+  years: CalendarYears[];
+}
+```
+
+## calendars
+
+The `calendars` array consists of objects containing **year**, **month**, and **days** properties. It inherently includes at least one member - the initial calendar denoted by `calendars[0]`. Modifying the behavior of calendars is achieved by adjusting the [dates configuration](/datepicker/dates-configuration), while their appearance can be customized through the [calendars configuration](/datepicker/calendars-configuration).
+
+```ts
+export type DPDayRange =
+  | 'in-range'
+  | 'range-start'
+  | 'range-end'
+  | 'range-start range-end'
+  | 'will-be-in-range'
+  | 'will-be-range-start'
+  | 'will-be-range-end'
+  | '';
+
+interface DPDay {
+  $date: Date;
+  day: string;
+  disabled: boolean;
+  inCurrentMonth: boolean;
+  now: boolean;
+  range: DPDayRange;
+  selected: boolean;
+}
+
+interface DPCalendar {
+  days: DPDay[];
+  month: string;
+  year: string;
+}
+```
+
+## weekDays
+
+The **weekDays** represent an array containing day names (**Mon**, **Tue**, **Wed**, and so on). The format of these names can be altered using the `locale.weekdays` property within the [locale configuration](/datepicker/locale-configuration).
+
+```ts
+type DPWeekdays = string[];
+```
+
+## months
+
+The **months** array comprises objects with properties **$date**, **active**, **disabled**, **month**, **now**, and **selected**. The format for the month names can be modified using the `locale.monthName` property within the [locale configuration](/datepicker/locale-configuration).
+
+```ts
+interface DPMonth {
+  $date: Date;
+  active: boolean;
+  disabled: boolean;
+  month: string;
+  now: boolean;
+  selected: boolean;
+}
+```
+
+## years
+
+Years are an array of objects with **$date**, **active**, **disabled**, **now**, **selected** and **year** properties. You can change the year name format by changing `locale.year` in the [locale configuration](/datepicker/locale-configuration).
+
+The years array contains objects featuring properties such as **$date**, **active**, **disabled**, **now**, **selected**, and **year**. Adjusting the format of year names can be achieved by modifying the `locale.year` property within the [locale configuration](/datepicker/locale-configuration).
+
+```ts
+interface DPYear {
+  $date: Date;
+  active: boolean;
+  disabled: boolean;
+  now: boolean;
+  selected: boolean;
+  year: number;
+}
+```
+
+## selectedDates
+
+The `selectedDates` array holds the raw selected dates, corresponding to the dates passed within the configuration.
+
+```ts
+type SelectedDates = Date[];
+```
+
+## formattedDates
+
+An array of formatted dates `date.toLocaleDateString(locale, options)` you can change it by specify [locale](/datepicker/locale-configuration#locale) and [options](/datepicker/locale-configuration#options).
+
+```ts
+type FormattedDates = string[];
+```
+
+## time
+
+The **time** array consists of objects featuring properties like **$date**, **disabled**, **now**, **selected**, and **value**. For adjusting the time format, properties like [hour12, hour, monute and second](/datepicker/locale-configuration#hour-monute-second-and-hour12) within the Locale configuration can be utilized.
+
+```ts
+export interface DPTime {
+  $date: Date;
+  disabled: boolean;
+  selected: boolean;
+  time: string;
+}
+```
