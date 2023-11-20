@@ -2,7 +2,7 @@
 
 Modular hooks aim to streamline code usage and minimize redundancy, thereby reducing the size of your application. They offer the capability to distribute functionalities across components, fostering a more organized and efficient code structure. This approach was employed and demonstrated in the [modular hooks solution](/datepicker/using-modular-hooks) guide for effective implementation and management of functionalities within the datepicker.
 
-#### useDatePickerState
+## useDatePickerState
 
 The `useDatePickerState` represents a general utility state function that receives a [configuration object](/datepicker/configuration) and returns a specific internal datepicker state that can be utilized across all modular hooks.
 
@@ -106,7 +106,7 @@ export type DPUseTime = (state: DPState) => {
 };
 ```
 
-#### useTimePropGetters
+## useTimePropGetters
 
 The **useTimePropGetters** returns the [timeButton](/datepicker/state-prop-getters#timebutton) prop-getter for time selection.
 
@@ -116,7 +116,7 @@ export type DPUseTimePropGetter = (state: DPState) => {
 };
 ```
 
-#### useDatePickerOffsetPropGetters
+## useDatePickerOffsetPropGetters
 
 The **useDatePickerOffsetPropGetters** is a general purpose hook that returns the [addOffset](/datepicker/state-prop-getters#addoffset), [setOffset](/datepicker/state-prop-getters#setoffset), and [subtractOffset](/datepicker/state-prop-getters#subtractoffset) prop-getters for offset manipulation.
 
@@ -134,7 +134,7 @@ export type DPUseDatePickerOffsetPropGetters = (state: DPState) => {
 };
 ```
 
-#### useYears
+## useYears
 
 The **useYears** is a data-centric hook that provides access to the [years](/datepicker/state-data#years) data.
 
