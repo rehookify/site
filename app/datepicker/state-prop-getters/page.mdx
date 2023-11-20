@@ -1,11 +1,8 @@
 # State prop-getters
 
+A [prop-getters](https://kentcdodds.com/blog/how-to-give-rendering-control-to-users-with-prop-getters) pattern grants access to essential props and logic for components. It provides the flexibility to pass additional configurations. In `@rehookify/datepicker`, prop-getters like **onClick** are composed to receive parameters such as **event** and **date** when invoked, typically in the format `onClick(event, date)`.
 
-### Prop-Getters
-
-A [prop-getters](https://kentcdodds.com/blog/how-to-give-rendering-control-to-users-with-prop-getters) is a pattern that allows you to get all the necessary pops and logic for your components. It gives you the possibility to pass additional configuration. `@rehookify/datepicker` composes `onClick` and calls it with **event** and **date** - `onClick(event, date)`.
-
-Each prop-getter accepts a configuration object to enhance the properties and functionality of the component.
+Each **prop-getter** accommodates a configuration object, enhancing the properties and functionalities of the associated component. This configuration allows for customization and additional control over the prop-getter's behavior and output.
 
 ```ts
 export interface DPPropsGetterConfig extends Record<string, unknown> {
@@ -14,7 +11,7 @@ export interface DPPropsGetterConfig extends Record<string, unknown> {
 }
 ```
 
-Each prop-getter returns an object with properties:
+All prop-getters function similarly: they take a data entity and a configuration as arguments and return an object comprising specific properties designed to cater to the component's needs:
 
 ```ts
 export interface DPPropGetter extends Record<string, unknown> {
@@ -27,98 +24,86 @@ export interface DPPropGetter extends Record<string, unknown> {
 }
 ```
 
-#### dayButton
+## dayButton
 
-`dayButton` produces properties for calendar days and sets the `selectedDates` state when a user clicks on a day.
-
-Params:
-
-- `day: DPDay` - you could get it from the calendars 👆 [#Calendars](#calendars)
-- `props?: DPPropsGetterConfig`
-
-Returns:
+The **dayButton** produces properties for calendar days and sets the `selectedDates` state when a user clicks on a day.
 
 ```ts
-type DayButton = (day: DPDay, config?: DPPropsGetterConfig) => DPPropGetter;
+type DayButton = (
+  day: DPDay,
+  config?: DPPropsGetterConfig
+) => DPPropGetter;
 ```
 
-✏️ NOTE: `onMouseMove` - appears only if dates mode is `range`, it is not composable. 👀 [Dates configuration](#dates-configuration)
+You could get the `day` from the [calendars state data](/datepicker/state-data#calendars).
 
-#### monthButton
+⚠️ NOTE: `onMouseMove` additionaly appears only if dates mode is `range`, it is not composable you can enable this mode in the [dates configuration](/datepicker/dates-configuration).
 
-`monthButton` produces properties for calendar months and changes month when a user clicks on a month.
+## monthButton
 
-Returns:
+The **monthButton** prop-getter generates properties associated with calendar months and facilitates the month-changing functionality when a user clicks on a specific month.
 
 ```ts
-type MonthButton = (month: DPMonth, config?: DPPropsGetterConfig) => DPPropGetter;
+type MonthButton = (
+  month: DPMonth,
+  config?: DPPropsGetterConfig
+) => DPPropGetter;
 ```
 
-Params:
+You could get the `month` from the [months state data](/datepicker/state-data#months).
 
-- `month: DPMonth` - you could get it from the months 👆 [Months](#months)
-- `props?: DPMonthsPropGettersConfig`
+## yearButton
 
-#### yearButton
-
-`yearButton` produces properties for calendar years and changes the year when user clicks on a year.
-
-Params:
-
-- `year: DPYear` - you could get it from the years 👆 [Years](#years)
-- `props?: DPPropsGetterConfig`
-
-Returns:
+The **yearButton** prop-getter generates properties related to calendar years and facilitates the modification of the offsetDate's year when a user clicks on a particular year.
 
 ```ts
-type YearButton = (year: DPYear, config?: DPPropsGetterConfig) => DPPropGetter;
+type YearButton = (
+  year: DPYear,
+  config?: DPPropsGetterConfig
+) => DPPropGetter;
 ```
 
-#### nextYearsButton
+You can get year from the [years state data](/datepicker/state-data#years).
 
-`nextYearsButton` moves years pagination one step forward.
+## nextYearsButton and previousYearsButton
 
-Params:
+The **nextYearsButton** and **previousYearsButton** prop-getters allow for the movement of year pagination, advancing one step forward or backward, respectively, within the datepicker interface.
 
-- `props?: DPPropsGetterConfig`
+⚠️ NOTE: The `onClick` callback function doesn't get `date` as a second parameter.
 
-✏️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
+## timeButton
 
-#### previousYearsButton
-
-`previousYearsButton` moves years pagination one step backward.
-
-Params:
-
-- `props?: DPPropsGetterConfig`
-
-✏️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
-
-#### timeButton
-
-`timeButton` produces properties for time button and changes corresponding `selectedDate` and `focusDate`.
-
-Params:
-
-- `time: DPTime` - you could get it from the years 👆 [Time](#time)
-- `props?: DPPropsGetterConfig`
-
-✏️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
-
-#### setOffset
+The `timeButton` produces properties for time button and changes corresponding `selectedDate` and `focusDate`.
 
 ```ts
-type SetOffset = (date: Date, config?: DPPropsGetterConfig) => DPPropGetter;
+type TimeButton = (
+  time: DPTime,
+  config?: DPPropsGetterConfig,
+) => DPPropGetter;
 ```
 
-`setOffset` moves offset to passed date if it is after than minDate and before maxDate.
+You could ge the **time** from the [time state data](/datepicker/state-data#time).
 
-Params:
+⚠️ NOTE: `onClick` - callback function doesn't get `date` as a second parameter.
 
-- `date: Date` - JS date object
-- `props?: DPPropsGetterConfig`
+## setOffset
 
-#### addOffset
+The `setOffset` moves offset to passed date if it is after than minDate and before maxDate.
+
+The **setOffset** prop-getter facilitates the movement of the offset to the specified date. When using the **setOffset**, the provided date must fall within the constraints set by the `minDate` and `maxDate` boundaries specified within the [dates configuration](/datepicker/dates-configuration).
+
+```ts
+type SetOffset = (
+  date: Date,
+  config?: DPPropsGetterConfig
+) => DPPropGetter;
+```
+
+The **date** param should be a valid EcmaScript Date.
+
+## addOffset and subtractOffset
+
+Both **addOffset** and **subtractOffset** prop-getters enable moving the offsetDate forward or backward by a specified number of days, months, and years. The first parameter, offsetValue, adheres to the following structure:
 
 ```ts
 interface DPOffsetValue {
@@ -126,32 +111,22 @@ interface DPOffsetValue {
   months?: number;
   years?: number;
 }
-
-type AddOffset = (
-    offsetValue: DPOffsetValue,
-    config?: DPPropsGetterConfig,
-  ) => DPPropGetter;
 ```
 
-`addOffset` - moves current offsetDate forward on the number of days, months and years.
+This structure includes optional values for the number of days, months, and years by which the offsetDate should be adjusted.
 
-Params:
-
-- `offsetValue: DPOffsetValue` - JS object with number of days, months and years
-- `props?: DPPropsGetterConfig`
-
-#### subtractOffset
+Both addOffset and subtractOffset prop-getters share identical signatures, enabling consistent usage.
 
 ```ts
+type AddOffset = (
+  offsetValue: DPOffsetValue,
+  config?: DPPropsGetterConfig,
+) => DPPropGetter;
+
 type SubtractOffset = (
-    offsetValue: DPOffsetValue,
-    config?: DPPropsGetterConfig,
-  ) => DPPropGetter;
+  offsetValue: DPOffsetValue,
+  config?: DPPropsGetterConfig,
+) => DPPropGetter;
 ```
 
-`subtractOffset` - moves current offsetDate backward on the number of days, months and years.
-
-Params:
-
-- `offsetValue: DPOffsetValue` - JS object with number of days, months and years
-- `props?: DPPropsGetterConfig`
+⚠️ NOTE: For both the **subtractOffset** and **addOffset** prop-getters, positive values should be provided in the OffsetValue object. For instance, `{ days: 1, months: 1, years: 1 }`.
