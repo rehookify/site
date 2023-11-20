@@ -9,7 +9,7 @@ export const A: FC<
 > = ({ children, href = '', className, ...props }) => {
   const linkClassName = cn('underline-offset-4', className);
 
-  if (href.startsWith('/')) {
+  if (href.startsWith('/') || href.startsWith('#')) {
     return (
       <Link href={href} {...props} className={linkClassName}>
         <span>{children}</span>

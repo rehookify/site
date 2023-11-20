@@ -1,3 +1,177 @@
 # Modular hooks
 
-Will be here soon ⏰
+Modular hooks aim to streamline code usage and minimize redundancy, thereby reducing the size of your application. They offer the capability to distribute functionalities across components, fostering a more organized and efficient code structure. This approach was employed and demonstrated in the [modular hooks solution](/datepicker/using-modular-hooks) guide for effective implementation and management of functionalities within the datepicker.
+
+#### useDatePickerState
+
+The `useDatePickerState` represents a general utility state function that receives a [configuration object](/datepicker/configuration) and returns a specific internal datepicker state that can be utilized across all modular hooks.
+
+```ts
+type UseDatePickerState = (config: DPUserConfig): DPState;
+```
+
+Internally, this utility function employs `useReducer` to manage and capture the datepicker state. It also provides a `dispatch` function for manipulating the state as needed within the datepicker functionalities.
+
+```ts
+export interface DPReducerState {
+  focusDate?: Date;
+  rangeEnd: Date | null;
+  offsetDate: Date;
+  offsetYear: number;
+}
+
+export type DPReducerAction =
+  | DPSetFocusDate
+  | DPSetOffsetDate
+  | DPSetYearAction
+  | DPSetRangeEndAction;
+
+export interface DPState {
+  dispatch: Dispatch<DPReducerAction>;
+  state: DPReducerState;
+  selectedDates: Date[];
+  offsetDate: Date;
+  config: DPConfig;
+}
+```
+
+In the modular hooks setup, the various hooks utilize the state and dispatch functions derived from the **useDatePickerState** hook. The `DatePickerStateProvider` utilizes this hook and then propagates this state and dispatch capability through context across the date-picker components.
+
+```ts
+type DatePickerStateProviderValue = DPState;
+```
+
+## useCalendars
+
+The **useCalendars** hook is a data-centric hook that provides access to the [calendars](/datepicker/state-data#calendars) and [weekDays](/datepicker/state-data#weekdays).
+
+```ts
+type DPUseCalendars = (state: DPState) => {
+  calendars: DPCalendar[];
+  weekDays: string[];
+};
+```
+
+It furnishes essential entities required for constructing a Calendar UI, offering foundational data without interactive functionalities.
+
+## useDays
+
+The **useDays** hook, similar to `useCalendars`, is data-centric and offers access to the [selectedDates](/datepicker/state-data#selecteddates) and [formattedDates](/datepicker/state-data#formatteddates). This hook provides selected dates from the config and their formatted representations within the datepicker.
+
+```ts
+export type DPUseDays = (state: DPState) => {
+  selectedDates: Date[];
+  formattedDates: string[];
+};
+```
+
+## useDaysPropGetters
+
+The **useDaysPropGetters** returns the [dayButton](/datepicker/state-prop-getters#daybutton) prop-getter for dates selection.
+
+```ts
+export type DPUseDaysPropGetters = (state: DPState) => {
+  dayButton: (day: DPDay, config?: DPPropsGetterConfig) => DPPropGetter;
+};
+```
+
+## useMonths
+
+The **useMonths** is a data-centric hook that provides access to the [months](/datepicker/state-data#months) data.
+
+
+```ts
+export type DPUseMonths = (state: DPState) => {
+  months: DPMonth[];
+};
+```
+
+## useMonthsPropGetters
+
+The **useMonthsPropGetters** returns the [monthButton](/datepicker/state-prop-getters#monthbutton) prop-getter for months selection.
+
+```ts
+export type DPUseMonthsPropGetters = (state: DPState) => {
+  monthButton: (month: DPMonth, config?: DPPropsGetterConfig) => DPPropGetter;
+};
+```
+
+## useTime
+
+The **useTime** is a data-centric hook that provides access to the [time](/datepicker/state-data#time) data.
+
+```ts
+export type DPUseTime = (state: DPState) => {
+  time: DPTime[];
+};
+```
+
+#### useTimePropGetters
+
+The **useTimePropGetters** returns the [timeButton](/datepicker/state-prop-getters#timebutton) prop-getter for time selection.
+
+```ts
+export type DPUseTimePropGetter = (state: DPState) => {
+  timeButton: (time: DPTime, config?: DPPropsGetterConfig) => DPPropGetter;
+};
+```
+
+#### useDatePickerOffsetPropGetters
+
+The **useDatePickerOffsetPropGetters** is a general purpose hook that returns the [addOffset](/datepicker/state-prop-getters#addoffset), [setOffset](/datepicker/state-prop-getters#setoffset), and [subtractOffset](/datepicker/state-prop-getters#subtractoffset) prop-getters for offset manipulation.
+
+```ts
+export type DPUseDatePickerOffsetPropGetters = (state: DPState) => {
+  addOffset: (
+    offsetValue: DPOffsetValue,
+    config?: DPPropsGetterConfig,
+  ) => DPPropGetter;
+  setOffset: (date: Date) => DPPropGetter;
+  subtractOffset: (
+    offsetValue: DPOffsetValue,
+    config?: DPPropsGetterConfig,
+  ) => DPPropGetter;
+};
+```
+
+#### useYears
+
+The **useYears** is a data-centric hook that provides access to the [years](/datepicker/state-data#years) data.
+
+```ts
+export type DPUseYears = (state: DPState) => {
+  years: DPYear[];
+};
+```
+
+## useYearsPropGetters
+
+The **useYearsPropGetters** returns the [yearButton](/datepicker/state-prop-getters#yearbutton), [nextYearsButton](/datepicker/state-prop-getters#nextyearsbutton), and [previousYearsButton](/datepicker/state-prop-getters#previousyearsbutton) prop-getters for years manipulation.
+
+```ts
+export type DPUseYearsPropGetters = (state: DPState) => {
+  yearButton: (year: DPYear, config?: DPPropsGetterConfig) => DPPropGetter;
+  nextYearsButton: (config?: DPPropsGetterConfig) => DPPropGetter;
+  previousYearsButton: (config?: DPPropsGetterConfig) => DPPropGetter;
+};
+```
+
+## Context Hooks
+
+The library is providing a set of context hooks that have same APIs and prefixed with "Context".
+They used under the `DatePickerStateProvider` component it was shown in the [modular hooks solution](/datepicker/using-modular-hooks) guide.
+
+The library offers a range of context hooks that follow a consistent API structure, distinguished by the prefix "Context." These context hooks are intended to be utilized within the `DatePickerStateProvider` component, as demonstrated in the [modular hooks solution](/datepicker/using-modular-hooks) guide. These hooks provide access to specific functionalities and data within the datepicker's context.
+
+- useContextCalendars -> [useCalendars](#usecalendars)
+- useContextDays -> [useDay](#usedays)
+- useContextDaysPropsGetters -> [useDayPropGetters](#usedayspropgetters)
+- useContextMonths -> [useMonths](#usemonths)
+- useContextMonthsPropGetters -> [useMonthsPropGetters](#usemonthspropgetters)
+- useContextTime -> [useTime](#usetime)
+- useContextTimePropGetters -> [useTimePropGetters](#usetimepropgetters)
+- useContextYears -> [useYears](#useyears)
+- useContextYearsPropGetters -> [useYearsPropGetters](#useyearspropgetters)
+- useContextDatePickerOffsetPropGetters -> [useDatePickerOffsetPropGetters](#usedatepickeroffsetpropgetters)
+
+These don't require parameters to be passed explicitly. Instead, they directly access the context value provided by the `DatePickerStateProvider`, allowing seamless utilization of the date-picker state
