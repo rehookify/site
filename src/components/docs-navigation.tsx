@@ -6,8 +6,7 @@ import { usePathname } from 'next/navigation';
 import { FC, ReactNode } from 'react';
 
 import { cn } from '~/lib/cn';
-
-import { Navigation } from '../types/navigation';
+import { Navigation } from '~/types/navigation';
 
 const navVariants = cva(
   'relative flex items-center px-4 lg:px-6 transition-colors duration-500 h-10 mb-1',
@@ -41,7 +40,7 @@ export const DocsNavigation: FC<DocsNavigationProps> = ({
 
   return (
     <aside className="relative h-full w-64 shrink-0 overflow-y-scroll border-r border-dashed border-zinc-300 px-4 dark:border-zinc-700 lg:w-80 lg:px-6">
-      <div className="py-16">
+      <div className="py-4">
         <div className="mb-8">{logo}</div>
         <nav>
           {navigation.map(({ href, depth, title }) => (

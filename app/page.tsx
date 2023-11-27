@@ -1,4 +1,5 @@
 import { ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 import { buttonVariants } from '~/components/button/button';
 import { ButtonIcon } from '~/components/button/button-icon';
@@ -93,10 +94,8 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="https://github.com/rehookify/datepicker"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/datepicker"
                 className={cn(
                   buttonVariants({
                     variant: 'primary',
@@ -105,10 +104,7 @@ export default function Home() {
                 )}
               >
                 Documentation
-                <ButtonIcon variant="end">
-                  <ExternalLink size={20} />
-                </ButtonIcon>
-              </a>
+              </Link>
             </div>
             <div className={dpStyles.calendars}>
               <DatePickerContent />
