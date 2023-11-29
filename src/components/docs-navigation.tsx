@@ -39,7 +39,7 @@ export const DocsNavigation: FC<DocsNavigationProps> = ({
   const pathname = usePathname();
 
   return (
-    <aside className="relative h-full w-64 shrink-0 overflow-y-scroll border-r border-dashed border-zinc-300 px-4 dark:border-zinc-700 lg:w-80 lg:px-6">
+    <aside className="fixed left-0 h-full w-64 shrink-0 overflow-y-scroll border-r border-dashed border-zinc-300 px-4 dark:border-zinc-700 lg:w-80 lg:px-6">
       <div className="py-4">
         <div className="mb-8">{logo}</div>
         <nav>
