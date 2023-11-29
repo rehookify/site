@@ -1,8 +1,6 @@
-import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 import { buttonVariants } from '~/components/button/button';
-import { ButtonIcon } from '~/components/button/button-icon';
 import { ContentSection } from '~/components/content-section';
 import { Footer } from '~/components/footer';
 import { SocialLink } from '~/components/social-link';
