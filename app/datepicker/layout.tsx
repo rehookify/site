@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
+import { DocsFooter } from '@/src/components/docs-footer';
 import { buttonVariants } from '~/components/button/button';
 import { DocsNavigation } from '~/components/docs-navigation';
 import { DocsStepNavigation } from '~/components/docs-step-navigation';
@@ -18,7 +19,7 @@ export default function DatePickerLayout({
   children: ReactNode;
 }) {
   return (
-    <main className="pl-64 lg:pl-80 xl:pr-60 2xl:pr-72">
+    <main className="block pl-64 lg:pl-80 xl:pr-60 2xl:pr-72">
       <header className="fixed left-64 right-0 top-0 z-20 flex h-16 items-center justify-between bg-zinc-100/80 dark:bg-zinc-900/80 lg:left-80">
         <Link className={cn(buttonVariants())} href="/">
           <ArrowLeft size={20} className="me-2" />
@@ -40,10 +41,11 @@ export default function DatePickerLayout({
       <section className="flex max-w-full justify-center px-6 pb-16 pt-24">
         <article
           id={ARTICLE_CONTENT_ID}
-          className="md:prose-md prose prose-zinc w-full dark:prose-invert lg:prose-lg"
+          className="md:prose-md prose prose-zinc w-full dark:prose-invert lg:prose-lg prose-headings:scroll-mt-16"
         >
           {children}
           <DocsStepNavigation navigation={DATE_PICKER_NAV} />
+          <DocsFooter />
         </article>
       </section>
       <DocsTOC />

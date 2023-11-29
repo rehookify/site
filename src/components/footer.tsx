@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-
-const START_YEAR = 2022;
+import React, { useState } from 'react';
+import useIsomorphicLayoutEffect from 'use-isomorphic-layout-effect';
 
 export const Footer = () => {
   const [copy, setCopy] = useState<string>('');
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const currentYear = new Date().getFullYear();
-    setCopy(`[Re]Hookify © ${START_YEAR} - ${currentYear}`);
+    setCopy(`[Re]Hookify © 2022 - ${currentYear}`);
   }, []);
 
   return (
