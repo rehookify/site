@@ -2,8 +2,9 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
-import { DocsFooter } from '@/src/components/docs-footer';
 import { buttonVariants } from '~/components/button/button';
+import { DocSearch } from '~/components/doc-search';
+import { DocsFooter } from '~/components/docs-footer';
 import { DocsNavigation } from '~/components/docs-navigation';
 import { DocsStepNavigation } from '~/components/docs-step-navigation';
 import { DocsTOC } from '~/components/docs-toc';
@@ -25,17 +26,20 @@ export default function DatePickerLayout({
           <ArrowLeft size={20} className="me-2" />
           Home
         </Link>
-        <a
-          href="https://github.com/rehookify/datepicker"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(buttonVariants())}
-        >
-          <div className="me-2 h-6 w-6">
-            <GithubIcon />
-          </div>
-          github
-        </a>
+        <div className="flex items-center">
+          <DocSearch />
+          <a
+            href="https://github.com/rehookify/datepicker"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants())}
+          >
+            <div className="me-2 h-6 w-6">
+              <GithubIcon />
+            </div>
+            GitHub
+          </a>
+        </div>
       </header>
       <DocsNavigation navigation={DATE_PICKER_NAV} logo={<DatePickerLogo />} />
       <section className="flex max-w-full justify-center px-6 pb-16 pt-24">
