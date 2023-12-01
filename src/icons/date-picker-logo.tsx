@@ -8,7 +8,7 @@ export const DatePickerLogo = () => (
     />
     <path
       stroke="currentColor"
-      stroke-width="28"
+      strokeWidth="28"
       d="M202 318h116V14H202M130 14H14v304h116"
     />
     <path

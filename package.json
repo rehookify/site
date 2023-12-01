@@ -16,7 +16,7 @@
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.0.2",
-    "@rehookify/datepicker": "^6.2.1",
+    "@rehookify/datepicker": "^6.5.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/mdx": "^2.0.10",
     "class-variance-authority": "^0.7.0",
