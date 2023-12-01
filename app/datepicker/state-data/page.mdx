@@ -38,6 +38,7 @@ export type DPDayRange =
 
 interface DPDay {
   $date: Date;
+  active: boolean;
   day: string;
   disabled: boolean;
   inCurrentMonth: boolean;
@@ -116,6 +117,7 @@ The **time** array consists of objects featuring properties like **$date**, **di
 ```ts
 export interface DPTime {
   $date: Date;
+  now: boolean;
   disabled: boolean;
   selected: boolean;
   time: string;
